@@ -1,5 +1,6 @@
 package com.example.roomdatabase
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class recycle : AppCompatActivity(), OnItemClick {
+
 
     //  var dataList = ArrayList<User>()
     //lateinit var recyclerView: RecyclerView
@@ -43,5 +45,24 @@ class recycle : AppCompatActivity(), OnItemClick {
     override fun itemClicked(pos: Int) {
         adapter?.notifyDataSetChanged()
 
+   }
+
+
+
+    override protected fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+         if(requestCode==100)
+         {
+             if(requestCode==100)
+             {val user=data?.getSerializableExtra("obj")
+                 val pos=data?.getIntExtra("pos",0)
+                 val id=data?.getIntExtra("id",0)
+                 val photoList = db.getIns(applicationContext)?.Cdao()?.SelectAll()
+
+             }
+
+         }
+
     }
+
 }

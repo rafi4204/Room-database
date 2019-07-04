@@ -1,5 +1,6 @@
 package com.example.roomdatabase
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,11 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 
 import android.widget.TextView
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-class Cadapter(private val context: Context, private val dataList: MutableList<User>?) :
+class Cadapter(private val activity: Activity, private val dataList: MutableList<User>?) :
     RecyclerView.Adapter<Cadapter.CustomViewHolder>() {
     var click : OnItemClick?=null
 
@@ -43,10 +45,10 @@ class Cadapter(private val context: Context, private val dataList: MutableList<U
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.name.setText(dataList?.get(position)?.name)
-        holder.age.setText(dataList?.get(position)!!.age.toString())
-        holder.country.setText(dataList[position].country)
-        holder.city.setText(dataList[position].city)
+        holder.name.text = dataList?.get(position)?.name
+        holder.age.text = dataList?.get(position)!!.age.toString()
+        holder.country.text = dataList[position].country
+        holder.city.text = dataList[position].city
 
         holder.delete.setOnClickListener {
 
@@ -58,9 +60,14 @@ class Cadapter(private val context: Context, private val dataList: MutableList<U
 
         holder.edit.setOnClickListener {
 
-            val intent = Intent(holder.itemView.context, Edit::class.java)
-            holder.itemView.context.startActivity(intent)
 
+
+           val intent = Intent(holder.itemView.context, Edit::class.java)
+          // holder.itemView.context.startActivityForResult<>
+            val id=db.getIns(holder.itemView.context)?.Cdao()?.Find(dataList[position].name)
+            intent.putExtra("id",id)
+            intent.putExtra("pos",position)
+            activity.startActivityForResult( intent,100)
         }
     }
 
