@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 @Dao
 interface cdao {
     @Query("SELECT * FROM user")
-    fun SelectAll(): List<User>
+    fun SelectAll(): MutableList<User>
 
     @Insert(onConflict = REPLACE)
     fun Insert(user: User)
