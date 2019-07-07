@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,6 +13,7 @@ class recycle : AppCompatActivity(), OnItemClick {
     //  var dataList = ArrayList<User>()
     //lateinit var recyclerView: RecyclerView
     // lateinit var adapter:Cadapter
+    lateinit var photoList :MutableList<User>
 
     private var adapter: Cadapter? = null
 
@@ -26,7 +26,7 @@ class recycle : AppCompatActivity(), OnItemClick {
         //recyclerView.adapter= Cadapter(dataList,this)
         // recyclerView.layoutManager= LinearLayoutManager(this)
 
-        val photoList = db.getIns(applicationContext)?.Cdao()?.SelectAll()
+         photoList = db.getIns(applicationContext)?.Cdao()?.SelectAll()!!
 
         recyclerView = findViewById(R.id.recycler_view)
 
@@ -45,23 +45,34 @@ class recycle : AppCompatActivity(), OnItemClick {
     override fun itemClicked(pos: Int) {
         adapter?.notifyDataSetChanged()
 
-   }
+    }
 
 
-
-    override protected fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-         if(requestCode==100)
-         {
-             if(requestCode==100)
-             {val user=data?.getSerializableExtra("obj")
-                 val pos=data?.getIntExtra("pos",0)
-                 val id=data?.getIntExtra("id",0)
-                 val photoList = db.getIns(applicationContext)?.Cdao()?.SelectAll()
 
-             }
+        Log.d("3", "recycle")
+        if (requestCode == 100) {
 
-         }
+            val user = data?.getSerializableExtra("Obj") as User
+            val pos = data.getIntExtra("pos", 0)
+            //  val id = data?.getIntExtra("id", 0)
+
+            Log.d("3", user.name + "  " + "${user.age}" + " " + user.city + " " + user.country)
+
+            adapter?.dataList?.set(pos, user)
+            db.getIns(applicationContext)?.Cdao()?.update(user)
+            //val photoList = db.getIns(applicationContext)?.Cdao()?.SelectAll()
+
+           // Log.d("3", photoList?.get(pos)?.name)
+            adapter?.notifyDataSetChanged()
+
+
+
+            Log.d("3", user.name + "  " + "${user.age}" + " " + user.city + " " + user.country)
+
+
+        }
 
     }
 

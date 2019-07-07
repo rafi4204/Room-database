@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.view.*
 
-class Cadapter(private val activity: Activity, private val dataList: MutableList<User>?) :
+class Cadapter(private val activity: Activity, val dataList: MutableList<User>?) :
     RecyclerView.Adapter<Cadapter.CustomViewHolder>() {
     var click : OnItemClick?=null
 
@@ -45,6 +45,7 @@ class Cadapter(private val activity: Activity, private val dataList: MutableList
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+        var model= dataList?.get(position)
         holder.name.text = dataList?.get(position)?.name
         holder.age.text = dataList?.get(position)!!.age.toString()
         holder.country.text = dataList[position].country
@@ -64,8 +65,8 @@ class Cadapter(private val activity: Activity, private val dataList: MutableList
 
            val intent = Intent(holder.itemView.context, Edit::class.java)
           // holder.itemView.context.startActivityForResult<>
-            val id=db.getIns(holder.itemView.context)?.Cdao()?.Find(dataList[position].name)
-            intent.putExtra("id",id)
+          //  val id=db.getIns(holder.itemView.context)?.Cdao()?.Find(dataList[position].name)
+            intent.putExtra("model",model)
             intent.putExtra("pos",position)
             activity.startActivityForResult( intent,100)
         }

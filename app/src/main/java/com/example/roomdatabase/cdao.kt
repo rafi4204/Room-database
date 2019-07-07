@@ -15,6 +15,9 @@ interface cdao {
     @Delete
     fun Delete(user: User)
 
-    @Query("SELECT id FROM user WHERE name=:name")
-    fun Find(name: String): Int
+   @Update
+   fun update(user: User)
+
+
+
 }
